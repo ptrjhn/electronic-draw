@@ -1,9 +1,19 @@
 <header class="uis-header">
-    <div class="uis-container
+    <div class="container
             uis-header-container">
-        <h1 class="uis-header-title uis-margin-small-top">
-            {{ $title }}
-        </h1>
+        <div class="row">
+            <div class="col-lg-10 col-sm-12">
+                <h1 class="uis-header-title uis-margin-small-top">
+                    {{ $title }}
+
+                </h1>
+            </div>
+            <div class="col-lg-2 col-sm-12">
+                <span class="ml-3">
+                    <img src=" {{ asset('static/logo/logo.png') }}" alt="Company Logo" style="height: 100px">
+                </span>
+            </div>
+        </div>
 
         <ul class="uis-subnav uis-subnav-horizontal-scroll">
 

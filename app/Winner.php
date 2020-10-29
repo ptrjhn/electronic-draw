@@ -8,6 +8,6 @@ class Winner extends Model
 {
     public function event()
     {
-        return $this->belongsTo('App\Winner');
+        return $this->belongsTo('App\Model\Winner');
     }
 }

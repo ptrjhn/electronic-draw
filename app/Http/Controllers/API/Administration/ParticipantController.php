@@ -35,7 +35,7 @@ class ParticipantController extends Controller
   {
 
     $items = DB::table('tickets')
-      ->select('tickets.id', 'full_name', 'branch', 'tickes.ticket_no',
+      ->select('tickets.id', 'full_name', 'branch', 'members.address', 'tickes.ticket_no',
         'participants.major_winner', 'participants.consolation_winner')
       ->orderBy('tickets.id', 'desc')
       ->join('members', 'members.id', 'tickets.member_id')

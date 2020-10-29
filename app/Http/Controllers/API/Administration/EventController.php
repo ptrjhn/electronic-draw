@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Events\ManageRequest;
+use App\Member;
 use App\Participant;
 use App\Prize;
 use App\Ticket;
@@ -86,6 +87,8 @@ class EventController extends Controller
         }
 
         $participant->save();
+
+        $member = Member::find($participant->member_id);
         
         
         $winner = new Winner();
@@ -95,6 +98,7 @@ class EventController extends Controller
         $winner->member_id = $participant->member_id;
         $winner->prize = $selectedPrize->particulars;
         $winner->participant_name = $request->participant_name;
+        $winner->address = $member->address;
         $winner->branch = $request->branch;
         $winner->prize_type = $selectedPrize->prize_type;
         $winner->save();

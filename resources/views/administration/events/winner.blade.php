@@ -19,6 +19,7 @@
           </h3>
           <tr>
             <th>Name</th>
+            <th>Address</th>
             <th>Ticket No</th>
             <th>Prize</th>
             <th>Prize Type</th>
@@ -29,6 +30,7 @@
             @foreach ($winners as $winner)
             <tr>
               <td>{{ $winner->participant_name}}</td>
+              <td>{{ $winner->address}}</td>
               <td>{{ $winner->ticket_no}}</td>
               <td>{{ $winner->prize }}</td>
               <td>{{ $winner->prize_type}}</td>

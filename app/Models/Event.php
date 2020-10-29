@@ -18,6 +18,7 @@ class Event extends Model
     public static $filterables = ['is_active'];
     public static $orderables = ['created_at'];
 
+  
     public static function _store($data)
     {
         $class = new self;
