@@ -112,6 +112,7 @@ jQuery(function ($) {
             setTimeout(() => {
                 saveWinner();
                 $(".winner-name").text(winner.full_name);
+                $(".winner-address").text(winner.address);
                 confetti.start();
                 $('.start').removeAttr('disabled');
             }, 1500);

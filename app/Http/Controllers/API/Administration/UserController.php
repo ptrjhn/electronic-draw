@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\API\Administration;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
 use App\Models\User;
 use App\Models\UserProfile;
 
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Users\ManageRequest;
 
 class UserController extends Controller
@@ -17,13 +18,29 @@ class UserController extends Controller
 		// $this->middleware('auth.permission');
     }
 
-    public function store(ManageRequest $request)
+    public function index()
+    {
+
+        $users = User::latest()->get();
+        return $users;
+
+    }
+
+    public function store(Request $request)
 	{
-        $user = User::_store($request);
+        $class = new User();
+		$class->username = $request['username'];
+		$class->first_name = $request['first_name'];
+		$class->last_name = $request['last_name'];
+		$class->email = "providerscoop@gmail.com";
+        $class->password = bcrypt('Abcd1234');
+        $class->user_type = 'standard_user';
+		$class->is_enabled = 1;
+		$class->created_by = Auth::user()->id;
+        $class->save();
+        
+        return $class;
 
-        $user->userProfile()->save(UserProfile::_new($request));
-
-        return $user;
     }
 
     public function edit(Request $request, $id)
@@ -35,16 +52,13 @@ class UserController extends Controller
 		return $user->toArrayEdit();
     }
     
-    public function update(ManageRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $user = User::find($id);
-        
-        if(!$user) return abort('Resources not found');;
+        if(!$user) return abort('Resources not found');
 
-        $user->update(User::_update($request));
-
-        $updated = User::find($id);
-
-        return $updated;
+		$user->password = bcrypt($request->password);
+		$user->save();
+        return $user;
     }
 }

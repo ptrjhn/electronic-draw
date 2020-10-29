@@ -15,7 +15,7 @@ class MemberController extends Controller
         $items = Member::orderBy('id', 'desc')->paginate(15);
 
         if ($request->query('search')) {
-            $items = Member::where('full_name','like', '%' . $request->query('search') . '%')->orderBy('id', 'desc')->paginate(20);
+            $items = Member::where('full_name','like', '%' . $request->query('search') . '%')->orderBy('id', 'desc')->paginate(10);
         }
         
         return response()->json($items);
@@ -33,6 +33,7 @@ class MemberController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
+          'address' => 'required',
           'full_name' => ['required', 
           Rule::unique('members')->where(function($query) use ($request) {
                 $query->where('full_name', $request->full_name);
@@ -48,8 +49,10 @@ class MemberController extends Controller
     public function update(Request $request, $id)
     {
       $this->validate($request,[
+          'address' => 'required',
           'full_name' =>[
               'required',
+              
               Rule::unique('members')->where(function($query) use ($request) {
                 $query->where([
                     ['full_name', $request->full_name],

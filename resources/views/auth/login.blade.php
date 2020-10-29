@@ -18,12 +18,16 @@
                         uis-margin-medium-top">
                     <div class="uis-margin">
                         <label for="email-address" class="uis-form-label">
-                            Email address
+                            Username
                         </label>
 
-                        <input id="email-address" type="text" class="uis-input" name="email"
-                            placeholder="ex: john.doe@example.com" autofocus required>
+                        <input id="username" type="text" class="uis-input" name="username" value="{{ old("username") }}"
+                            autofocus required>
+                        @if ($errors->has('username'))
+                        <small class="uis-text-danger form-error">{{ $errors->first('username') }}</small>
+                        @endif
                     </div>
+
 
                     <div class="uis-margin-top">
                         <label for="password" class="uis-form-label">

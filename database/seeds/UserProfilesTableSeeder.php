@@ -19,7 +19,7 @@ class UserProfilesTableSeeder extends Seeder
                 'last_name' => 'Admin',
                 'created_by' => 1,
 				'created_at' => now()
-			],
+            ],
 		
 		]);
     }

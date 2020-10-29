@@ -64,7 +64,7 @@ class PrizeController extends Controller
     {
       $this->validate($request,[
           'particulars' => ['required', 
-            Rule::unique('tickets')->where(function($query) use ($request) {
+            Rule::unique('prizes')->where(function($query) use ($request) {
               $query->where([
                 ['particulars', $request->particulars],
                 ['branch', $request->branch],

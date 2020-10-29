@@ -53,12 +53,14 @@
                     </h3>
                     <tr>
                         <th>Member Name</th>
+                        <th>Address</th>
                         <th>Branch</th>
                         <th>Actions</th>
                     </tr>
                     <tbody>
                         <tr v-for="member in members">
                             <td>@{{ member.full_name}}</td>
+                            <td>@{{ member.address }}</td>
                             <td>@{{ member.branch }}</td>
                             <td>
                                 <a class="uis-button-* mr-2 js-open-modal" @click.prevent="editMember(member)">Edit</a>

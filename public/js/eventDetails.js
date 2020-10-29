@@ -1,5 +1,5 @@
 
-var eventDetails = new Vue({
+new Vue({
   el: '#app',
   data: {
     participants: [],
@@ -58,15 +58,17 @@ var eventDetails = new Vue({
     }
   },
   created() {
-     this.event_id = document.getElementById("new-prize").getAttribute('data-id');
+     this.event_id = document.getElementById("event-button").getAttribute('data-id');
      this.getParticipants();
      this.getPrizes(this.event_id);
   },
   methods: {
     
-    getParticipants: function() {
-      this.$http.get(`/api/administration/participants?event_id=${this.event_id}&search=${this.searchText}`).then((response) => {
+    getParticipants: function(page = 1) {
+      this.$http.get(`/api/administration/participants?page=${page}&event_id=${this.event_id}&search=${this.searchText}`).then((response) => {
         this.participants = response.data.data
+        this.pagination = response.data;
+
       });
     },
     

@@ -5,19 +5,21 @@
             {{ $title }}
         </h1>
 
-        <ul class="uis-subnav
-                    uis-subnav-horizontal-scroll">
+        <ul class="uis-subnav uis-subnav-horizontal-scroll">
+
+
             <li class="{{ Request::segment(1) == 'events' ? 'uis-active' : ''}}">
                 <a href="/events">
                     Events
                 </a>
             </li>
-
-            {{-- <li class="{{ Request::segment(1) == 'users ' ? 'uis-active' : ''}}">
-            <a href="/users">
-                Users
-            </a>
-            </li> --}}
+            @if (Auth::user()->user_type == 'admin')
+            <li class="{{ Request::segment(1) == 'users ' ? 'uis-active' : ''}}">
+                <a href="/users">
+                    Users
+                </a>
+            </li>
+            @endif
 
             <li class="{{ Request::segment(1) == 'members' ? 'uis-active' : ''}}">
                 <a href="/members">

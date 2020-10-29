@@ -4,14 +4,13 @@
 
 @include('layouts.header', ['title' => $title])
 
-<div
-class="uis-container
+<div class="uis-container
     uis-margin-medium-top
     uis-margin-medium-bottom
     uis-animate
     uis-animate-fade-in">
-    
-    @include('administration.settings.section.themes')
+
+    {{-- @include('administration.settings.section.themes') --}}
 
     @include('administration.settings.section.information')
 

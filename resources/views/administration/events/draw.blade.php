@@ -3,12 +3,14 @@
 
 @section('content')
 <header class="uis-header">
+
   <div class="uis-container
             uis-header-container uis-text-center">
-    <h1 class="uis-header-title uis-margin-small-top">
+    <img src=" {{ asset('static/logo/Logo.png') }}" alt="Company Logo" class="uis-text-left" style="height: 100px">
+    <h1 class="uis-header-title">
       {{ $event->name}}
     </h1>
-    <h2 data-id="" style="color: #fff" class="uis-text-subheader uis-margin-small">
+    <h2 data-id="" style="color: #fff" class="uis-text-subheader">
       {{ $prize->particulars }} -
       {{ $prize->branch }} Branch
     </h2>
@@ -18,7 +20,7 @@
           uis-margin-medium-top
             uis-margin-medium-bottom
             uis-animate
-            uis-animate-fade-in">
+            uis-animate-fade-in" style="margin-top: 20px !important">
   <div class="uis-container">
     <div class="uis-text-center">
       <div class="winner-content">
@@ -29,7 +31,7 @@
         <input type="hidden" id="prize-type" value="{{ $prize->prize_type}}">
       </div>
     </div>
-    <div class="row mt-5">
+    <div class="row mt-1">
       <div class="col">
         <div class="roulette_container uis-card uis-card-default uis-card-body">
           <div class="roulette" id="roulette1" style="display:none;">
@@ -116,15 +118,16 @@
         </div>
       </div>
     </div>
-    <div class="uis-text-center mt-5">
+    <div class="uis-text-center mt-4">
       <div class="winner-content">
         <button class="btn btn-success btn-roll btn-lg start" id="start-roll">START
           ROLL</button>
 
       </div>
     </div>
-    <h1 class="uis-text-center winner-name" style="font-size: 10rem; font-weight: 700"></h1>
   </div>
+  <h1 class="uis-text-center winner-name" style="font-size: 5.5em; font-weight: 700"></h1>
+  <h5 style="font-size: 2.2rem; font-weight: 700" class="uis-text-center winner-address"></h5>
   @include('administration.events.modal.winner')
 </section>
 </div>

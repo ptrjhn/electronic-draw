@@ -14,7 +14,7 @@ class ManageRequest extends Request
     public function rules()
     {
         return [
-            'email' => 'required|email',
+            'username' => 'required|string',
             'first_name' => 'required|string',
             'last_name' => 'required|string',
         ];

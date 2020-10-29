@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->command->info('Seeding default data of Events' . PHP_EOL);
         $this->call(EventsTableSeeder::class);
 
-        $this->command->info('Seeding default data of Players' . PHP_EOL);
-        $this->call(PlayersTableSeeder::class);
+        // $this->command->info('Seeding default data of Players' . PHP_EOL);
+        // $this->call(PlayersTableSeeder::class);
     }
 }

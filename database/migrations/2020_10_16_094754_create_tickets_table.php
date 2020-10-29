@@ -23,6 +23,7 @@ class CreateTicketsTable extends Migration
             $table->bigInteger('member_id')->unsigned();
             $table->foreign('member_id')->references('id')->on('members');
             $table->bigInteger('created_by')->default(0);
+            $table->bigInteger('deleted_by')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

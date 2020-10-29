@@ -27,7 +27,7 @@ class EventController extends Controller
         if (strtolower($request->query('branch')) != 'all') {
             $items = DB::table('participants')
             ->select('tickets.id','participants.id as participant_id',
-            'full_name','members.branch','tickets.ticket_no',
+            'full_name','members.branch','members.address','tickets.ticket_no',
                 'participants.major_winner','participants.consolation_winner')    
             ->where(function($query) use ($request) {
             $query->whereRaw("participants.event_id = ? AND 

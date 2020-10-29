@@ -86,7 +86,6 @@ class Setting
             if (response.status === 200 || response.status === 201)
             {
                 formHelper.clearForm();
-
                 message.empty();
 
                 location.href = window.location.href;

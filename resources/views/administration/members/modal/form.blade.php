@@ -21,6 +21,18 @@
 
           <div class="uis-margin">
             <label class="uis-form-label">
+              Member Address *
+            </label>
+            <input type="text" class="uis-input" v-model="formData.address" name="name"
+              placeholder="Enter Client Address">
+
+            <small v-if="formErrors['address']" class="uis-text-danger form-error">
+              @{{ formErrors['address'][0] }}
+            </small>
+          </div>
+
+          <div class="uis-margin">
+            <label class="uis-form-label">
               Branch *
             </label>
             <select class="uis-select" v-model="formData.branch">

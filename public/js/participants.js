@@ -54,7 +54,6 @@ new Vue({
 
     showPartipicantModal() {
       this.isNew = true;
-      alert('sadasd')
       Modal.show("#event-participants-modal");
     },
     getParticipants: function(id) {

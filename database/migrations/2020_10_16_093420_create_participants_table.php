@@ -22,6 +22,8 @@ class CreateParticipantsTable extends Migration
             $table->tinyInteger('major_winner')->default(0);
             $table->tinyInteger('consolation_winner')->default(0);
             $table->timestamps();
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('deleted_by')->nullable();
             $table->softDeletes();
         });
     }

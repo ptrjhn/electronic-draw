@@ -1,65 +1,55 @@
 <section class="uis-margin-large">
-    <p
-        class="uis-text-medium
+    <p class="uis-text-medium
             uis-text-emphasis">
         Your Information
     </p>
 
-    <hr
-        class="uis-hr
+    <hr class="uis-hr
             uis-margin">
 
     <div>
-        <div
-            class="uis-flex
+        <div class="uis-flex
                 uis-flex-between
                 uis-margin">
             <div>
                 <p class="uis-margin-remove">
                     Full name
                 </p>
-                <p
-                    class="uis-margin-remove
+                <p class="uis-margin-remove
                         uis-text-meta">
-                    System Administrator
+                    {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}
                 </p>
             </div>
 
-            <div>
-                <button
-                    class="uis-button
+            {{-- <div>
+                <button class="uis-button
                         uis-button-text
-                        uis-button-text-primary"
-                    uis-modal="#fullname-modal">
+                        uis-button-text-primary" uis-modal="#fullname-modal">
                     Edit
                 </button>
-            </div>
+            </div> --}}
         </div>
 
-        <div
-            class="uis-flex
+        <div class="uis-flex
                 uis-flex-between
                 uis-margin">
             <div>
                 <p class="uis-margin-remove">
-                    Email address
+                    Username
                 </p>
-                <p
-                    class="uis-margin-remove
+                <p class="uis-margin-remove
                         uis-text-meta">
-                    system.administrator@gigamare.com
+                    {{ Auth::user()->username }}
                 </p>
             </div>
 
-            <div>
-                <button
-                    class="uis-button
+            {{-- <div>
+                <button class="uis-button
                         uis-button-text
-                        uis-button-text-primary"
-                    uis-modal="#email-modal">
+                        uis-button-text-primary" uis-modal="#email-modal">
                     Edit
                 </button>
-            </div>
+            </div> --}}
         </div>
     </div>
 </section>

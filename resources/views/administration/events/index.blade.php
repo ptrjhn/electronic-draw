@@ -10,18 +10,21 @@
         uis-animate
         uis-animate-fade-in">
 
+
+    @if (Auth::user()->user_type == 'admin')
     <form action="#" class="uis-form">
         <div class="uis-form-controls">
             <label for="search" class="uis-form-label">SEARCH BY EVENT</label>
             <input type="text" name="search" id="search" class="uis-input" placeholder="e.g October Raffle Draw 2020">
         </div>
     </form>
-
     <div class="uis-margin-medium">
         <button class="uis-button uis-button-primary js-open-modal" data-type="create" uis-modal="#event-form-modal">
             + New Event
         </button>
     </div>
+    @endif
+
     @foreach($events as $key => $event)
     @php
     $dates = explode('-', $key);

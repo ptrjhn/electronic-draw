@@ -18,6 +18,8 @@ class CreateMembersTable extends Migration
             $table->string('full_name');
             $table->string('branch')->nullable();
             $table->string('address')->nullable();
+            $table->bigInteger('created_by')->nullable();
+            $table->bigInteger('modified_by')->nullable();
             $table->string('contact_no')->nullable();
             $table->timestamps();
         });
@@ -30,6 +32,6 @@ class CreateMembersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('members');
+        // Schema::dropIfExists('members');
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'email', 'password',
+        'email','password','username','first_name','last_name'
     ];
 
     /**
@@ -31,20 +32,26 @@ class User extends Authenticatable
     public static function _store($data)
 	{
         $class = new self;
-		$class->email = $data['email'];
-		$class->password = bcrypt('secret');
+		$class->username = $data['username'];
+		$class->first_name = $data['first_name'];
+		$class->last_name = $data['last_name'];
+		$class->password = bcrypt('Abcd1234');
 		$class->is_enabled = 1;
-		$class->created_by = 1;
+		$class->created_by = Auth::user()->username;
         $class->save();
-        
+
         return $class;
 	}
 
 	public static function _update($data)
 	{
-		return ['email' => $data['email'],
-				'updated_by' =>1
-			];
+    $class = new self;
+		$class->username = $data['username'];
+		$class->first_name = $data['first_name'];
+		$class->last_name = $data['last_name'];
+		$class->password = bcrypt('Abcd1234');
+		$class->is_enabled = 1;
+	
 	}
 
     public function userProfile()
@@ -54,10 +61,11 @@ class User extends Authenticatable
 
     public function toArray()
 	{
-		$arr =  ['id' => $this->id,
-				 'email' => $this->email,
+		$arr = ['id' => $this->id,
+				 'username' => $this->username,
+				 'first_name' => $this->first_name,
+				 'last_name' => $this->last_name,
 				 'is_enabled' => $this->is_enabled,
-				 'user_profile' => $this->userProfile
 				];
 
 		return $arr;
@@ -66,9 +74,9 @@ class User extends Authenticatable
     public function toArrayEdit()
 	{
 		$arr =  ['id' => $this->id,
-				 'email' => $this->email,
-				 'first_name' => $this->userProfile->first_name,
-				 'last_name' => $this->userProfile->last_name
+				 'username' => $this->username,
+				 'first_name' => $this->first_name,
+				 'last_name' => $this->last_name
 				];
 
 		return $arr;

@@ -15,63 +15,65 @@
 
         <div class="col-md-7 col-xs-12 mb-3">
           <div class="uis-card uis-card-default uis-card-body">
+            @if (Auth::user()->user_type == "admin")
             <a v-if="participants.length >= 0 && prizes.length >= 0"
               class="uis-link uis-link-reset uis-margin-xsmall-right"
-              href="{{ env('APP_URL') . '/events/' . $event->slug . '/prizes'}}" target="_blank">
-              <button class="uis-button uis-event-button">
+              href="{{ env('APP_URL') . 'events/' . $event->slug . '/prizes'}}" target="_blank">
+              <button class="uis-button uis-event-button event-button">
                 <span class="uis-event-button-icon">🎰</span>
                 <span>Draw</span>
               </button>
             </a>
-
+            @endif
             <a class="uis-link uis-link-reset uis-margin-xsmall-right"
-              href="{{ env('APP_URL') . '/events/' . $event->slug . '/winners'}}" target="_blank">
+              href="{{ env('APP_URL') . 'events/' . $event->slug . '/winners'}}" target="_blank">
               <button class="uis-button uis-event-button">
                 <span class="uis-event-button-icon">🏆</span>
                 <span>Winners</span>
               </button>
             </a>
 
-            <a class="uis-link uis-link-reset uis-margin-xsmall-right" href="/events/{{ $event->slug }}/ticket-inquiry"
-              target="_blank">
+            <a class="uis-link uis-link-reset uis-margin-xsmall-right"
+              href="{{ env('APP_URL') . 'events/' . $event->slug .'/ticket-inquiry' }}" target="_blank">
               <button class="uis-button uis-event-button">
                 <span class="uis-event-button-icon">📰</span>
                 <span>Ticket Inquiry</span>
               </button>
             </a>
 
-            <button class="uis-button
+            {{-- <button class="uis-button
                                     uis-event-button
                                     uis-margin-xsmall-right
                                     uis-margin-xsmall-top
                                     event-open-modal" data-type="edit" data-id="{{$event->id}}">
+            <span class="uis-event-button-icon">📝</span>
+            <span>Edit</span> --}}
+
+            <button v-on:click="showPartipicantModal" class="uis-button
+                                    uis-event-button
+                                    event-button
+                                    uis-margin-xsmall-top
+                                    uis-margin-xsmall-right
+                                    event-open-modal" data-type="edit" id="event-button" data-id="{{$event->id}}">
               <span class="uis-event-button-icon">📝</span>
-              <span>Edit</span>
+              <span>New Participant</span>
+            </button>
 
-              <button v-on:click="showPartipicantModal" class="uis-button
-                                    uis-event-button
-                                    uis-margin-xsmall-top
-                                    uis-margin-xsmall-right
-                                    event-open-modal" data-type="edit" data-id="{{$event->id}}">
-                <span class="uis-event-button-icon">📝</span>
-                <span>New Participant</span>
-              </button>
+            @if (Auth::user()->user_type == "admin")
+            <button v-on:click="showPrizeModal" class="uis-button event-button
+                                                                uis-event-button
+                                                                uis-margin-xsmall-top
+                                                                uis-margin-xsmall-right
+                                                               " data-type="edit" data-id="{{$event->id}}">
+              <span class="uis-event-button-icon">📝</span>
+              <span>New Prize</span>
+            </button>
+            @endif
 
-              <button v-on:click="showPrizeModal" class="uis-button
-                                                  uis-event-button
-                                                  uis-margin-xsmall-top
-                                                  uis-margin-xsmall-right
-                                                 " data-type="edit" id="new-prize" data-id="{{$event->id}}">
-                <span class="uis-event-button-icon">📝</span>
-                <span>New Prize</span>
-              </button>
-
-
-
-              {{-- <button class="uis-button mt-2 uis-event-button event-open-status-modal" uis-modal="#close-event"
+            {{-- <button class="uis-button mt-2 uis-event-button event-open-status-modal" uis-modal="#close-event"
                 data-id="{{$event->id}}" data-active="{{$event->is_active}}" data-name="{{$event->name}}">
-              <span class="uis-event-button-icon">🚩</span>
-              <span>{{$event->is_active ? 'Close' : 'Open'}}</span>
+            <span class="uis-event-button-icon">🚩</span>
+            <span>{{$event->is_active ? 'Close' : 'Open'}}</span>
             </button> --}}
 
 
@@ -122,13 +124,33 @@
       <div class="row mt-3">
         <div class="col-lg-7 col-md-7 col-sm-12 mb-3">
           <div class="uis-card uis-card-default uis-card-body">
+            <nav class="uis-text-center">
+              <ul class="pagination mt-2 mb-4">
+                <li v-if="pagination.current_page > 1">
+                  <a href="#" aria-label="Previous" @click.prevent="changePage(pagination.current_page - 1)">
+                    <span aria-hidden="true">«</span>
+                  </a>
+                </li>
+                <li v-for="page in pagesNumber" v-bind:class="[ page == isActived ? 'active' : '']">
+                  <a href="#" @click.prevent="changePage(page)">
+                    @{{ page }}
+                  </a>
+                </li>
+                <li v-if="pagination.current_page < pagination.last_page">
+                  <a href="#" aria-label="Next" @click.prevent="changePage(pagination.current_page + 1)">
+                    <span aria-hidden="true">»</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
             <table class="uis-table uis-table-divider uis-table-responsive uis-table-link uis-table-small">
               <h3 class="uis-card-title">
-                Participants/Tickets
+                Participants/Tickets (@{{ pagination.total }})
               </h3>
               <tr>
                 <th>Ticket No</th>
                 <th>Partipant Name</th>
+                <th>Address</th>
                 <th>Branch</th>
                 <th>Actions</th>
               </tr>
@@ -136,6 +158,7 @@
                 <tr v-for="participant in participants">
                   <td>@{{ participant.ticket_no }}</td>
                   <td>@{{ participant.full_name }}</td>
+                  <td>@{{ participant.address }}</td>
                   <td>@{{ participant.branch }}</td>
                   <td>
                     <a class=" uis-button-* mr-2 js-open-modal" v-on:click="deleteParticipant(participant)">Delete</a>

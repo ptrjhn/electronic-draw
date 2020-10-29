@@ -123,6 +123,7 @@ new Vue({
       this.getMembers(page);
     },
     clearForm: function() {
+      this.formErrors = {};
       this.formData = {
       id: "",
       client_code: "",

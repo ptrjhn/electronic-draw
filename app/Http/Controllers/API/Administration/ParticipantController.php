@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\API\Administration;
 
-use App\Http\Controllers\Controller;
-use App\Participant;
 use App\Ticket;
+use App\Participant;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ParticipantController extends Controller
 {
@@ -15,7 +16,7 @@ class ParticipantController extends Controller
   {
 
     $items = DB::table('tickets')
-      ->select('tickets.id', 'full_name', 'branch', 'tickets.ticket_no')
+      ->select('tickets.id', 'full_name', 'branch', 'address','tickets.ticket_no')
       ->where(function ($query) use ($request) {
         $query->whereRaw("tickets.event_id = ? AND
           (tickets.ticket_no like ? OR full_name like ?) AND tickets.deleted_at IS NULL",
@@ -24,7 +25,7 @@ class ParticipantController extends Controller
       ->orderBy('tickets.id', 'desc')
       ->join('members', 'members.id', 'tickets.member_id')
       ->join('participants', 'participants.event_id', 'tickets.event_id')
-      ->groupBy("full_name", "members.branch", "ticket_no", "tickets.event_id", "tickets.id")
+      ->groupBy("full_name", "members.branch", "address", "ticket_no", "tickets.event_id", "tickets.id")
       ->paginate(20);
 
     return response()->json($items);
@@ -75,6 +76,7 @@ class ParticipantController extends Controller
       $ticket->member_id = $participant->member_id;
       $ticket->event_id = $participant->event_id;
       $ticket->participant_id = $participant->id;
+      $ticket->created_by = Auth::user()->id;
 
       $ticket->saveOrFail();
       array_push($tickets, $ticket);
@@ -98,6 +100,7 @@ class ParticipantController extends Controller
 
   public function destroy($id)
   {
+
     Ticket::find($id)->delete();
 
     return response()->json(['done']);

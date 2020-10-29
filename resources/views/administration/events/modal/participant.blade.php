@@ -11,7 +11,8 @@
             <label class="uis-form-label">
               Member
             </label>
-            <input type="text" class="uis-input" v-model="searchText" v-on:keyup="searchMembers">
+            <input type="text" class="uis-input" v-model="searchText" v-on:keyup="searchMembers"
+              placeholder="Search By Lastname Firstname middlename">
             @{{ formErrors['member_id'][0] }}
             <ul class="uis-list uis-list-divider uis-link-muted" v-if="members.length" id="js-participants-container">
               <li href="#" v-for="member in members">

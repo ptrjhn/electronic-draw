@@ -13,13 +13,13 @@ new Vue({
     offset: 4,
     formErrors: {},
     isNew: true,
-    searchText: "",
     formData: {
       id: "",
-      name: "",
-      prize: "",
-      location: "",
-      event_date: "",
+      username: "",
+      first_name: "",
+      last_name: "",
+      user_type: "user",
+      is_enabled: true,
     },
     
   },
@@ -48,18 +48,19 @@ new Vue({
     }
   },
   created() {
-     this.getEvents();
+     this.getUsers();
   },
   methods: {
 
-    showEventFormModal() {
+    showModal() {
       this.isNew = true;
       this.formErrors = {};
-      Modal.show("#event-form-modal");
+      Modal.show("#user-form-modal");
     },
-    getEvents: function() {
-      this.$http.get(`/api/administration/events`).then((response) => {
-        this.events = response.data
+    getUsers: function() {
+      this.$http.get(`/api/administration/user`).then((response) => {
+        console.log(response);
+        this.users = response.data
       });
     },
     
@@ -68,40 +69,40 @@ new Vue({
       this.formErrors = {};
       
       if (this.isNew) {
-        this.createEvent();
+        this.createUser();
       } else {
-        this.updateEvent(this.formData.id);
+        this.updateUser(this.formData.id);
       }
-    },
-    createEvent: function() {
+    },  
+    createUser: function() {
       var input = this.formData;
-      this.$http.post('/api/administration/event',input).then((response) => {
-        location.href = response.data.path;
+      this.$http.post('/api/administration/user',input).then((response) => {
+        this.users.unshift(response.data);
+        Modal.hide('#event-form-modal');
         toastr.success('Created Successfully.', 'Create', {timeOut: 5000});
       }).catch((response) => {
         this.formErrors = response.data.error
       });
     },
-    deleteEvent: function(event) {
-      this.$http.delete('/api/administration/events/'+event.id).then((response) => {
-      this.getEvents();
+    deleteUser: function(user) {
+      this.$http.delete('/api/administration/user/'+user.id).then((response) => {
+      this.getUsers();
+      Modal.hide("#user-form-modal");
       toastr.success('Deleted Successfully.', 'Delete', {timeOut: 5000});
       });
     },
-    editEvent: function(item) {
+    editUser: function(item) {
       this.isNew = false;
-      this.formData.event_id = this.event_id;
-      this.formData.particulars = item.particulars;
-      this.formData.quantity = item.quantity;
-      this.formData.prize_type = item.prize_type;
-      this.formData.branch = item.branch;
+      this.formData.username = this.username;
+      this.formData.first_name = item.first_name;
+      this.formData.last_name = item.last_name;
       this.formData.id = item.id;
-      Modal.show('#event-form-modal');
+      Modal.show('#user-form-modal');
 
     },
-    updateEvent: function(id) {
+    updateUser: function(id) {
       var input = this.formData;
-      this.$http.put('/api/administration/events/'+id,input).then((response) => {
+      this.$http.put('/api/administration/user/'+id,input).then((response) => {
 
         this.getEvents();
         this.formErrors = {};

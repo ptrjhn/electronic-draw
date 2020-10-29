@@ -15,6 +15,8 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    //  protected $username = 'username';
+
     /**
      * Handle a login request to the application.
      *
@@ -23,6 +25,17 @@ class LoginController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
+
+    // public function postLogin(Request $request)
+    // {
+    //     $this->validate($request, [
+    //     $this->loginUsername() => 'required', 'password' => 'required',
+    //  ]);
+    // }
+    // public function loginUsername()
+    // {
+    //     return property_exists($this, 'username') ? $this->username : 'email';
+    // }
     public function login(Request $request)
     {
 
@@ -54,7 +67,6 @@ class LoginController extends Controller
         $request->session()->regenerate();
 
         $this->clearLoginAttempts($request);
-
         return $this->authenticated($request, $this->guard()->user())
                 ?: redirect()->intended($this->redirectPath());
     }
